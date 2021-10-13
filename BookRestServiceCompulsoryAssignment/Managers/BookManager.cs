@@ -16,17 +16,15 @@ namespace BookRestServiceCompulsoryAssignment.Managers
             new Book("Dune", "Frank Herbert", 688, "9780593099322")
         };
 
-        public IEnumerable<Book> GetAllBooks(string isbn13 = "", string title ="", string author = "" )
+        public IEnumerable<Book> GetAllBooks( string substring )
         {
-            isbn13 ??= string.Empty;
-            title ??= string.Empty;
-            author ??= string.Empty;
-            List<Book> AllBooks = new List<Book>(ListOfBooks);
-            var Results = AllBooks
-                .Where(book => book.ISBN13.Contains(isbn13, StringComparison.OrdinalIgnoreCase))
-                .Where(book => book.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
-                .Where(book => book.Author.Contains(author, StringComparison.OrdinalIgnoreCase));
-            return Results;
+            List<Book> Books = new List<Book>(ListOfBooks);
+            if (substring != null)
+            {
+                Books = ListOfBooks.FindAll(book =>
+                    book.ISBN13.Contains(substring, StringComparison.OrdinalIgnoreCase));
+            }
+            return Books;
         }
 
 

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookRestServiceCompulsoryAssignment.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Books")]
     [ApiController]
     public class BooksController : ControllerBase
     {
@@ -21,9 +21,9 @@ namespace BookRestServiceCompulsoryAssignment.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpGet]
-        public ActionResult<IEnumerable<Book>> GetAllBooks([FromQuery] string isbn13)
+        public ActionResult<IEnumerable<Book>> GetAllBooks([FromQuery] string substring)
         {
-            var result = _manager.GetAllBooks();
+            var result = _manager.GetAllBooks(substring);
             if (result.Equals(null))
             {
                 return NoContent();
@@ -36,18 +36,18 @@ namespace BookRestServiceCompulsoryAssignment.Controllers
 
         // GET api/<BooksController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{string}")]
         public ActionResult<Book> GetWithISBN13(string isbn13)
         {
-            Book result = _manager.GetBookByISBN13(isbn13);
-            if (result.Equals(null))
+            Book book = _manager.GetBookByISBN13(isbn13);
+            if (book.Equals(null))
             {
-                return NoContent();
+                return NotFound();
             }
             else
             {
-                return Ok(result);
+                return Ok(book);
             }
             
         }
@@ -74,14 +74,14 @@ namespace BookRestServiceCompulsoryAssignment.Controllers
         // PUT api/<BooksController>/5
         //PUT edits an existing item 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{string}")]
         public ActionResult<Book> Put(string isbn13, [FromBody] Book book)
         {
             Book updatedBook = _manager.UpdateBook(isbn13, book);
             if (updatedBook.Equals(null))
             {
-                return NoContent();
+                return NotFound();
             }
             else
             {
@@ -91,14 +91,14 @@ namespace BookRestServiceCompulsoryAssignment.Controllers
 
         // DELETE api/<BooksController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{string}")]
         public ActionResult<Book> Delete(string isbn13)
         {
             Book deletedBook = _manager.DeleteBook(isbn13);
             if (deletedBook.Equals(null))
             {
-                return NoContent();
+                return NotFound();
             }
             else
             {
