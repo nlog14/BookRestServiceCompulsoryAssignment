@@ -60,8 +60,5 @@ namespace BookRestServiceCompulsoryAssignment.Managers
           return book;
         }
 
-
-
-
     }
 }

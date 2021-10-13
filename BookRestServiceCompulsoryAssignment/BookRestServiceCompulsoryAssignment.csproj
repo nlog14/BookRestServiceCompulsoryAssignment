@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="BookLibraryCompulsoryAssignment">
       <HintPath>..\..\BookLibraryCompulsoryAssignment\BookLibraryCompulsoryAssignment\bin\Debug\net5.0\BookLibraryCompulsoryAssignment.dll</HintPath>
     </Reference>
