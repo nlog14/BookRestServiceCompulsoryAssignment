@@ -36,15 +36,16 @@ namespace BookRestServiceCompulsoryAssignment.Managers
             return ISBN13BookResult;
         }
 
-        public Book AddNewBook(Book book)
+        public Book AddNewBook(Book newBook)
         {
-            ListOfBooks.Add(book);
-            return book;
+            ListOfBooks.Add(newBook);
+            return newBook;
         }
 
         public Book UpdateBook(string isbn13, Book update )
         {
             Book book = ListOfBooks.Find(book => book.ISBN13.Equals(isbn13));
+            if (book.Equals(null)) return null;
             book.Title = update.Title;
             book.Author = update.Author;
             book.NumberOfPages = update.NumberOfPages;
@@ -56,6 +57,7 @@ namespace BookRestServiceCompulsoryAssignment.Managers
         public Book DeleteBook(string isbn13)
         {
           var book = ListOfBooks.Find(book => book.ISBN13.Equals(isbn13));
+          if (book.Equals(null)) return null;
           ListOfBooks.Remove(book);
           return book;
         }
